@@ -76,12 +76,7 @@ class App extends React.Component {
 							<Profile {...props} company={company} logIn={this.logIn} />
 						)}
 					/>
-					<Route
-						path="/offer"
-						render={props => (
-							<Offer {...props} company={company} logIn={this.logIn} />
-						)}
-					/>
+					<Route path="/offer/:id" render={props => <Offer {...props} />} />
 					<footer>
 						<div className="container">Created by PC</div>
 					</footer>

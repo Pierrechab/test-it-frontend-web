@@ -6,7 +6,9 @@ class OfferCard extends Component {
 	state = {
 		bookedPlaces: this.props.offer.listTesters.length,
 		totalPlaces:
-			this.props.offer.availabilities + this.props.offer.listTesters.length
+			this.props.offer.availabilities + this.props.offer.listTesters.length,
+		offer: this.props.offer,
+		industries: ""
 	};
 
 	formattedDate(d = new Date(this.props.offer.deadlineTest)) {
@@ -19,7 +21,17 @@ class OfferCard extends Component {
 
 		return `${day}/${month}/${year}`;
 	}
-
+	renderIndustries = () => {
+		const criteres = [];
+		if (this.state.offer.industry) {
+			for (let i = 0; i < this.state.offer.industry.length; i++) {
+				criteres.push(this.state.offer.industry[i].name);
+			}
+			const industries = criteres.join(" / ");
+			// console.log(industries);
+			return industries;
+		}
+	};
 	renderPicture = () => {
 		// if (this.props.offer.pictures.length > 0) {
 		// 	return (
@@ -33,10 +45,14 @@ class OfferCard extends Component {
 		return <div className="offer-img" />;
 	};
 	render() {
-		// console.log("tot", this.props.offer.listTesters.length);
-		// console.log(this.props.offer);
+		// console.log("tot", this.props.offer.industry);
+		// console.log("la", this.state.offer.industry);
 		return (
-			<Link className="offer-card" to={`/offer/${this.props.offer._id}`}>
+			<Link
+				className="offer-card"
+				to={`/offer/${this.props.offer._id}`}
+				params={{ offer: this.props.offer._id }}
+			>
 				{/* Partie gauche (image) */}
 				{this.renderPicture()}
 				{/* Partie droite (Titre et prix) */}
@@ -45,6 +61,8 @@ class OfferCard extends Component {
 						<h4 className="offer-title">{this.props.offer.offerName}</h4>
 						<p>Type de test : </p>
 						{this.props.offer.typeOffer}
+						<p>Catégories : </p>
+						{this.renderIndustries()}
 					</div>
 					<div className="offer-body-right">
 						<div className="offer-deadlineTest">

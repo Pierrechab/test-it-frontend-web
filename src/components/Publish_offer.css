@@ -71,3 +71,12 @@ select {
 	margin-left: 40px;
 	margin-right: 10px;
 }
+.detailsAgeFilters {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+}
+.detailsAgeFilters .range {
+	margin-left: 20px;
+	margin-right: 20px;
+}

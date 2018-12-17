@@ -5,6 +5,7 @@
 .container {
 	margin: auto;
 	width: 80%;
+	min-height: 70vh;
 }
 footer {
 	height: 100px;

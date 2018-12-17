@@ -1,8 +1,14 @@
 import React, { Component } from "react";
 import axios from "axios";
 import "./Publish_offer.css";
+// import AutosizeInput from "react-input-autosize";
+import Select from "react-select";
+import "rc-slider/assets/index.css";
+const Slider = require("rc-slider");
+const createSliderWithTooltip = Slider.createSliderWithTooltip;
+const Range = createSliderWithTooltip(Slider.Range);
 
-class NewOffer extends Component {
+class Publish extends Component {
 	state = {
 		offerName: "offre1",
 		creationDate: "",
@@ -23,9 +29,11 @@ class NewOffer extends Component {
 		availabilities: "50",
 		price: "15",
 		typeOffer: "",
-		ageMin: "",
-		ageMax: "",
-		genderTarget: ""
+		age: [16, 100],
+		genderTarget: "",
+		category: "",
+		industry: "",
+		options: []
 	};
 
 	handleChange = event => {
@@ -35,10 +43,23 @@ class NewOffer extends Component {
 		const value = target.type === "checkbox" ? target.checked : target.value;
 		this.setState({ [name]: value });
 	};
+	handleChange2 = category => {
+		this.setState({ category: category });
+		const categoryLength = this.state.category.length;
+		this.setState(previousState => ({
+			industry: [...previousState.industry, category[categoryLength].value]
+		}));
+	};
+
+	onSliderChange = value => {
+		this.setState({
+			age: value
+		});
+	};
 	onSubmitCreateOffer = event => {
 		axios
 			.post(
-				"http://192.168.86.60:3000/publish",
+				"http://localhost:3000/publish",
 				{ ...this.state, company: this.props.company._id },
 				{
 					headers: { authorization: "Bearer " + this.props.company.token }
@@ -51,11 +72,26 @@ class NewOffer extends Component {
 				this.props.history.push("/profile");
 			})
 			.catch(err => {
-				console.log(err);
+				console.log("error", err);
 			});
 	};
+
+	getCategory = () => {
+		axios.get("http://localhost:3000/get_category").then(response => {
+			console.log(response.data);
+			const options = [];
+			for (let category of response.data) {
+				const option = { value: category._id, label: category.name };
+				options.push(option);
+			}
+			this.setState({ options: options });
+		});
+	};
+
 	render() {
-		// console.log(this.props.company._id);
+		// console.log("options", options);
+		// console.log("lil", this.state.category);
+		// console.log("lol", this.state.industry);
 		return (
 			<div className="container">
 				<h2>Créer une offre</h2>
@@ -68,6 +104,15 @@ class NewOffer extends Component {
 							value={this.state.offerName}
 							onChange={this.handleChange}
 							required
+						/>
+					</div>
+					<div className="offerCategory">
+						<p>Chosissez une ou plusieurs catégories :</p>
+						<Select
+							isMulti
+							value={this.state.category}
+							options={this.state.options}
+							onChange={this.handleChange2}
 						/>
 					</div>
 					<div className="detailsOffer">
@@ -233,21 +278,18 @@ class NewOffer extends Component {
 					<div className="ageFilters">
 						<div className="detailsAgeFilters">
 							<p>Age minimum requis</p>
-							<input
-								name="ageMin"
-								placeholder="ageMin"
-								value={this.state.ageMin}
-								onChange={this.handleChange}
+							<Range
+								className="range"
+								style={{ width: 200 }}
+								allowCross={false}
+								min={16}
+								// defaultValue={[30, 60]}
+								marks={{ 16: 16, 100: 100 }}
+								onChange={this.onSliderChange}
+								value={this.state.age}
+								tipFormatter={value => `${value}`}
 							/>
-						</div>
-						<div className="detailsAgeFilters">
 							<p>Age maximum requis</p>
-							<input
-								name="ageMax"
-								placeholder="ageMax"
-								value={this.state.ageMax}
-								onChange={this.handleChange}
-							/>
 						</div>
 					</div>
 					<div className="genderTarget">
@@ -281,6 +323,9 @@ class NewOffer extends Component {
 			</div>
 		);
 	}
+	componentDidMount() {
+		this.getCategory();
+	}
 }
 
-export default NewOffer;
+export default Publish;

@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import axios from "axios";
 import ReactFileReader from "react-file-reader";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 import "./Sign_up.css";
 
 class Log_in extends Component {
@@ -116,7 +116,7 @@ class Log_in extends Component {
 							<button type="button">+</button>
 						</ReactFileReader>
 					</div>
-					<div>{filesArray}</div>
+					<div className="show-logo">{filesArray}</div>
 					<div className="validate">
 						<button className="sign-up" onClick={this.onSubmitSignup}>
 							Valider

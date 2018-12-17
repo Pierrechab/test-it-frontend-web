@@ -13,12 +13,12 @@ class Header extends Component {
 			return (
 				<Fragment>
 					<li
-						class="buttonCompanyName"
+						className="buttonCompanyName"
 						onClick={() => this.props.history.push("/profile")}
 					>
 						{this.props.company.companyName}
 					</li>
-					<li class="buttonLogOff" onClick={this.onLogOut}>
+					<li className="buttonLogOff" onClick={this.onLogOut}>
 						Déconnexion
 					</li>
 				</Fragment>
@@ -27,13 +27,13 @@ class Header extends Component {
 		return (
 			<Fragment>
 				<li
-					class="buttonCompanyName"
+					className="buttonCompanyName"
 					onClick={() => this.props.history.push("/sign_up")}
 				>
 					Créer un compte
 				</li>
 				<li
-					class="buttonLogOff"
+					className="buttonLogOff"
 					onClick={() => this.props.history.push("/log_in")}
 				>
 					Se connecter
@@ -45,7 +45,7 @@ class Header extends Component {
 	render() {
 		return (
 			<header>
-				<div className="container">
+				<div className="header-container">
 					<div className="Logo">
 						<Link to="/">
 							<img className="logo-test-it" src="assets/img/Logo.svg" />
