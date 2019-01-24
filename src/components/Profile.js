@@ -62,7 +62,13 @@ class Profile extends Component {
 						</div>
 						<div className="my-offers-right">
 							<h3>Créer une nouvelle offre</h3>
-							<Link className="button-left" to="/publish_offer">
+							<Link
+								className="button-left"
+								to={{
+									pathname: "/publish_offer",
+									companyDetails: this.state.companyDetails
+								}}
+							>
 								<button>+</button>
 							</Link>
 						</div>

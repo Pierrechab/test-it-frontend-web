@@ -108,7 +108,7 @@ class Log_in extends Component {
 					<div className="simple-input">
 						<p>Choisir votre logo :</p>
 						<ReactFileReader
-							fileTypes={[".png", ".jpg"]}
+							fileTypes={[".png", ".jpg", ".svg"]}
 							base64={true}
 							multipleFiles={true} // `false si une seule image`
 							handleFiles={this.handleFiles}

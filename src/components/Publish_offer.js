@@ -15,7 +15,7 @@ class Publish extends Component {
 		deadlineInscription: "2019/02/03",
 		deadlineTest: "2019/02/03",
 		duration: "1h",
-		picture: "",
+		picture: this.props.location.companyDetails.companyLogo,
 		streeNumber: "",
 		streeName: "",
 		city: "",
@@ -33,7 +33,8 @@ class Publish extends Component {
 		genderTarget: "",
 		category: "",
 		industry: "",
-		options: []
+		options: [],
+		typeForm: ""
 	};
 
 	handleChange = event => {
@@ -60,7 +61,11 @@ class Publish extends Component {
 		axios
 			.post(
 				"http://localhost:3000/publish",
-				{ ...this.state, company: this.props.company._id },
+				{
+					...this.state,
+					company: this.props.company._id,
+					companyName: this.props.company.companyName
+				},
 				{
 					headers: { authorization: "Bearer " + this.props.company.token }
 				}
@@ -78,7 +83,7 @@ class Publish extends Component {
 
 	getCategory = () => {
 		axios.get("http://localhost:3000/get_category").then(response => {
-			console.log(response.data);
+			// console.log(response.data);
 			const options = [];
 			for (let category of response.data) {
 				const option = { value: category._id, label: category.name };
@@ -88,10 +93,75 @@ class Publish extends Component {
 		});
 	};
 
+	renderTypeForm = () => {
+		if (this.state.typeOffer === "Online") {
+			return (
+				<div>
+					<p>Entrez l'URL de votre TypeForm : </p>
+					<input
+						className="typeForm"
+						type="text"
+						onChange={this.handleChange}
+						value={this.state.typeForm}
+					/>
+				</div>
+			);
+		} else if (this.state.typeOffer === "Physique") {
+			return (
+				<div>
+					<p>Adresse :</p>
+					<div className="adressInfo">
+						<div className="detailsAdressInfo">
+							<p>Numéro de rue</p>
+							<input
+								name="streetNumber"
+								placeholder="streetNumber"
+								value={this.state.streetNumber}
+								onChange={this.handleChange}
+								required
+							/>
+						</div>
+						<div className="detailsAdressInfo">
+							<p>Nom de la rue</p>
+							<input
+								name="streetName"
+								placeholder="streetName"
+								value={this.state.streetName}
+								onChange={this.handleChange}
+								required
+							/>
+						</div>
+						<div className="detailsAdressInfo">
+							<p>Ville</p>
+							<input
+								name="city"
+								placeholder="city"
+								value={this.state.city}
+								onChange={this.handleChange}
+								required
+							/>
+						</div>
+						<div className="detailsAdressInfo">
+							<p>Pays</p>
+							<input
+								name="country"
+								placeholder="country"
+								value={this.state.country}
+								onChange={this.handleChange}
+								required
+							/>
+						</div>
+					</div>
+				</div>
+			);
+		}
+		return null;
+	};
+
 	render() {
 		// console.log("options", options);
-		// console.log("lil", this.state.category);
-		// console.log("lol", this.state.industry);
+		// console.log("lil", this.props);
+		// console.log("lol", this.state.picture);
 		return (
 			<div className="container">
 				<h2>Créer une offre</h2>
@@ -179,49 +249,6 @@ class Publish extends Component {
 						onChange={this.handleChange}
 						required
 					/>
-					<p>Adresse :</p>
-					<div className="adressInfo">
-						<div className="detailsAdressInfo">
-							<p>Numéro de rue</p>
-							<input
-								name="streetNumber"
-								placeholder="streetNumber"
-								value={this.state.streetNumber}
-								onChange={this.handleChange}
-								required
-							/>
-						</div>
-						<div className="detailsAdressInfo">
-							<p>Nom de la rue</p>
-							<input
-								name="streetName"
-								placeholder="streetName"
-								value={this.state.streetName}
-								onChange={this.handleChange}
-								required
-							/>
-						</div>
-						<div className="detailsAdressInfo">
-							<p>Ville</p>
-							<input
-								name="city"
-								placeholder="city"
-								value={this.state.city}
-								onChange={this.handleChange}
-								required
-							/>
-						</div>
-						<div className="detailsAdressInfo">
-							<p>Pays</p>
-							<input
-								name="country"
-								placeholder="country"
-								value={this.state.country}
-								onChange={this.handleChange}
-								required
-							/>
-						</div>
-					</div>
 					<p>Nombre de places pour le test (participants maximum)</p>
 					<input
 						name="availabilities"
@@ -275,6 +302,7 @@ class Publish extends Component {
 						/>
 						<p>Online</p>
 					</div>
+					{this.renderTypeForm()}
 					<div className="ageFilters">
 						<div className="detailsAgeFilters">
 							<p>Age minimum requis</p>

@@ -8,6 +8,8 @@ header .header-container {
 	flex-direction: row;
 	align-items: center;
 	justify-content: center;
+	width: 80%;
+	margin: auto;
 }
 .Logo {
 	flex: 1;
