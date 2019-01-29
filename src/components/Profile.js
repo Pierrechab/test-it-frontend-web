@@ -49,7 +49,7 @@ class Profile extends Component {
 		// console.log("tot", this.state.companyDetails.companyLogo);
 		return (
 			<div className="container">
-				<h2>Mon profile</h2>
+				<h2>Mon profil</h2>
 				<div className="main-block">
 					<div className="entête">
 						<img src={this.state.companyDetails.companyLogo} />

@@ -99,7 +99,7 @@ class Publish extends Component {
 				<div>
 					<p>Entrez l'URL de votre TypeForm : </p>
 					<input
-						className="typeForm"
+						name="typeForm"
 						type="text"
 						onChange={this.handleChange}
 						value={this.state.typeForm}
@@ -159,7 +159,7 @@ class Publish extends Component {
 	};
 
 	render() {
-		console.log(this.state.age);
+		// console.log(this.state.age);
 		// console.log("options", options);
 		// console.log("lil", this.props);
 		// console.log("lol", this.state.picture);
